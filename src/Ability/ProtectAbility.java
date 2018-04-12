@@ -3,16 +3,29 @@ package Ability;
 import Creature.Creature;
 
 public class ProtectAbility extends Ability {
+
+    protected static int defaultAbilityBonusProtect = 1;
+    protected int abilityBonusProtect;
+
+    public ProtectAbility(int abilityBonusProtect) {
+        super("ProtectAbility", Type.MYSELF);
+        this.abilityBonusProtect = abilityBonusProtect;
+    }
+
     public ProtectAbility() {
-        super("ProtectAbility");
+        super("ProtectAbility", Type.MYSELF);
+        this.abilityBonusProtect = defaultAbilityBonusProtect;
     }
 
     @Override
-    public void useAbility(Creature creature) {
-        creature.setProtection(creature.getProtection() + 2) ;
-        if(creature.getProtection() >= 100) {
-            creature.setProtection(95);
-        }
-        System.out.println(creature.getName() + " +2 prote");
+    protected void getEffect(Creature mySelf, Creature any) {
+        System.out.println("'" + mySelf.getName() + "' use ProtectAbility and get "
+                + mySelf.receiveProtect(abilityBonusProtect) + "; '"
+                + mySelf.getName() + "' Protect = " + mySelf.getProtection());
+    }
+
+    @Override
+    public void printInfoOfAbility() {
+        System.out.println("Strengthen armor");
     }
 }

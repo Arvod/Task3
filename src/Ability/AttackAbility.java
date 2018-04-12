@@ -4,24 +4,28 @@ import Creature.Creature;
 
 public class AttackAbility extends Ability{
 
+    private static int defaultAbilityDamage = 8;
+    private int abilityDamage;
+
     public AttackAbility() {
-        super("AttackAbility");
+        super("AttackAbility", Type.ENEMY);
+        this.abilityDamage = defaultAbilityDamage;
+    }
+
+    public AttackAbility(int abilityDamage) {
+        super("AttackAbility", Type.ENEMY);
+        this.abilityDamage = abilityDamage;
     }
 
     @Override
-    public void useAbility(Creature enemy) {
-        if(enemy.getHitPoints() <= 50){
-            enemy.setHitPoints( ( enemy.getHitPoints() - 7 ) * ( 1 - enemy.getProtection() / 100 ) );
-            if(enemy.getHitPoints() <= 0){
-                enemy.setHitPoints(0);
-            }
-            System.out.println(enemy.getName() + " lost " + (7 * ( 1 - enemy.getProtection() / 100 ) ) + " HP, HP =" + enemy.getHitPoints());
-        } else {
-            enemy.setHitPoints((enemy.getHitPoints() - 9) * (1 - enemy.getProtection() / 100));
-            if(enemy.getHitPoints() <= 0){
-                enemy.setHitPoints(0);
-            }
-            System.out.println(enemy.getName() + " lost " + (9 * ( 1 - enemy.getProtection() / 100 ) ) + " HP, HP =" + enemy.getHitPoints());
-        }
+    protected void getEffect(Creature mySelf, Creature enemy) {
+        System.out.println("'" + mySelf.getName() + "' use AttackAbility on "
+                + enemy.getName() + " and hit on " + enemy.receiveDamage(abilityDamage)
+                + "; '" + enemy.getName() + "' HP = " + enemy.getHitPoints());
+    }
+
+    @Override
+    public void printInfoOfAbility() {
+        System.out.println("Create a sledgehammer and throw it at the enemy");
     }
 }
